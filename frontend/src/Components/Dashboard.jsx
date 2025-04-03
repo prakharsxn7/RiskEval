@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CustomerDashboard from '../Components/CustomerDashboard';
+import CustomerDashboard from './CustomerDashboard';
 import BankDashboard from './BankDashboard';
 
 const Dashboard = () => {
