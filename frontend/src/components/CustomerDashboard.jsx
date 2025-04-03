@@ -1,5 +1,7 @@
 import { useState } from "react"
 import * as XLSX from 'xlsx';
+import { config } from "../utils/path";
+
 
 const tabStyle = {
   padding: "0.75rem 1.5rem",
@@ -345,7 +347,9 @@ export default function CustomerDashboard() {
       const formDataToSend = new FormData()
       formDataToSend.append('file', dataBlob, 'data.xlsx')
 
-      const response = await fetch('http://localhost:8000/process-file', {
+      const BASE_URL= config.url.PYTHON_API_URL
+      
+      const response = await fetch(`${BASE_URL}/process-file`, {
         method: 'POST',
         body: formDataToSend,
       })

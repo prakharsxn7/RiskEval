@@ -132,6 +132,7 @@ router.post('/process-file', verifyToken, upload.single('file'), async (req, res
         formData.append('file', fs.createReadStream(req.file.path));
 
         const base_url=process.env.MODEL_URL;
+        console.log(base_url)
         const response = await axios.post(`${base_url}/process-file`, formData, {
             headers: {
                 ...formData.getHeaders()
