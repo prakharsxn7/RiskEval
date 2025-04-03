@@ -7,10 +7,13 @@ import FormSubmission from '../models/FormSubmission.js';
 import jwt from 'jsonwebtoken';
 import axios from 'axios';
 import multer from 'multer';
+import dotenv from 'dotenv';
 
 const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+dotenv.config();
 
 // Configure multer for file upload
 const storage = multer.diskStorage({
@@ -128,7 +131,8 @@ router.post('/process-file', verifyToken, upload.single('file'), async (req, res
         const formData = new FormData();
         formData.append('file', fs.createReadStream(req.file.path));
 
-        const response = await axios.post('http://localhost:8000/process-file', formData, {
+        const base_url=process.env.MODEL_URL;
+        const response = await axios.post(`${base_url}/process-file`, formData, {
             headers: {
                 ...formData.getHeaders()
             }
