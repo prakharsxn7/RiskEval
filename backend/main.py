@@ -8,11 +8,16 @@ import os
 import traceback
 
 app = FastAPI()
-
+origins = [
+    "https://riskeval.site",  # Your frontend URL
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://localhost:5001",  # Allow local development
+]
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],  # Allow both React and Vite dev servers
+    allow_origins=origins,  # Allow both React and Vite dev servers
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
