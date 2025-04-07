@@ -76,6 +76,7 @@ export default function CustomerDashboard() {
     "loan-flags": false,
     "customer-info": false
   })
+  const [filledFieldsCount, setFilledFieldsCount] = useState(0)
 
   // Progress indicator component
   const ProgressIndicator = () => {
@@ -227,7 +228,19 @@ export default function CustomerDashboard() {
   })
 
   const handleChange = (field, value) => {
+    // Check if the field was previously empty and is now filled
+    const wasEmpty = !formData[field];
+    const isNowFilled = value !== "";
+    
+    // Update form data
     setFormData((prev) => ({ ...prev, [field]: value }))
+    
+    // Update filled fields count
+    if (wasEmpty && isNowFilled) {
+      setFilledFieldsCount(prevCount => prevCount + 1);
+    } else if (!wasEmpty && !isNowFilled) {
+      setFilledFieldsCount(prevCount => Math.max(0, prevCount - 1));
+    }
     
     // Check if all fields in the current section are filled
     const sectionFields = {
@@ -456,12 +469,13 @@ return (
                 </label>
                     <input
                         type="number"
-                  min="0"
-                  max="100"
+                        min="0"
+                        max="100"
+                        step="0.01"
                         value={formData.pct_tl_open_L6M}
                   onChange={(e) => handleChange("pct_tl_open_L6M", e.target.value)}
                   style={commonInputStyles}
-                  placeholder="Percent accounts opened in the last 6 months"
+                  placeholder="pct_tl_open_L6M"
                     />
                 </div>
 
@@ -471,10 +485,13 @@ return (
                 </label>
                     <input
                         type="number"
+                        min="0"
+                        max="100"
+                        step="0.01"
                         value={formData.pct_tl_closed_L6M}
                   onChange={(e) => handleChange("pct_tl_closed_L6M", e.target.value)}
                   style={commonInputStyles}
-                  placeholder="Percent accounts closed in the last 6 months"
+                  placeholder="pct_tl_closed_L6M"
                     />
                 </div>
 
@@ -484,10 +501,11 @@ return (
                 </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Tot_TL_closed_L12M}
                   onChange={(e) => handleChange("Tot_TL_closed_L12M", e.target.value)}
                   style={commonInputStyles}
-                  placeholder="Total accounts closed in the last 12 months"
+                  placeholder="Tot_TL_closed_L12M"
                     />
                 </div>
 
@@ -497,10 +515,13 @@ return (
                 </label>
                     <input
                         type="number"
+                        min="0"
+                        max="100"
+                        step="0.01"
                         value={formData.pct_tl_closed_L12M}
                   onChange={(e) => handleChange("pct_tl_closed_L12M", e.target.value)}
                   style={commonInputStyles}
-                  placeholder="Percent accounts closed in the last 12 months"
+                  placeholder="pct_tl_closed_L12M"
                     />
                 </div>
 
@@ -510,10 +531,11 @@ return (
                 </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Tot_Missed_Pmnt}
                   onChange={(e) => handleChange("Tot_Missed_Pmnt", e.target.value)}
                   style={commonInputStyles}
-                  placeholder="Total missed payments"
+                  placeholder="Tot_Missed_Pmnt"
                     />
                 </div>
             </div>
@@ -536,10 +558,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.CC_TL}
                     onChange={(e) => handleChange("CC_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Count of credit card accounts"
+                    placeholder="CC_TL"
                     />
                 </div>
 
@@ -549,10 +572,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Home_TL}
                     onChange={(e) => handleChange("Home_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Count of housing loan accounts"
+                    placeholder="Home_TL"
                     />
                 </div>
 
@@ -562,10 +586,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.PL_TL}
                     onChange={(e) => handleChange("PL_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Count of personal loan accounts"
+                    placeholder="PL_TL"
                     />
                 </div>
 
@@ -575,10 +600,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Secured_TL}
                     onChange={(e) => handleChange("Secured_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Count of secured accounts"
+                    placeholder="Secured_TL"
                     />
                 </div>
 
@@ -588,10 +614,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Unsecured_TL}
                     onChange={(e) => handleChange("Unsecured_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Count of unsecured accounts"
+                    placeholder="Unsecured_TL"
                     />
                 </div>
 
@@ -601,10 +628,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Other_TL}
                     onChange={(e) => handleChange("Other_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Count of other accounts"
+                    placeholder="Other_TL"
                     />
             </div>
 
@@ -614,10 +642,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Age_Oldest_TL}
                     onChange={(e) => handleChange("Age_Oldest_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Age of oldest opened account"
+                    placeholder="Age_Oldest_TL"
                     />
                 </div>
 
@@ -627,10 +656,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Age_Newest_TL}
                     onChange={(e) => handleChange("Age_Newest_TL", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Age of newest opened account"
+                    placeholder="Age_Newest_TL"
                     />
             </div>
 
@@ -640,10 +670,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.time_since_recent_payment}
                     onChange={(e) => handleChange("time_since_recent_payment", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Time since recent payment made"
+                    placeholder="time_since_recent_payment"
                     />
                 </div>
               </div>
@@ -667,10 +698,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.max_recent_level_of_deliq}
                     onChange={(e) => handleChange("max_recent_level_of_deliq", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Maximum recent level of delinquency"
+                    placeholder="max_recent_level_of_deliq"
                     />
                 </div>
 
@@ -680,10 +712,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_deliq_6_12mts}
                     onChange={(e) => handleChange("num_deliq_6_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of times delinquent between last 6-12 months"
+                    placeholder="num_deliq_6_12mts"
                     />
                 </div>
 
@@ -693,10 +726,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_times_60p_dpd}
                     onChange={(e) => handleChange("num_times_60p_dpd", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of times 60+ days past due"
+                    placeholder="num_times_60p_dpd"
                     />
                 </div>
 
@@ -706,10 +740,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_std_12mts}
                     onChange={(e) => handleChange("num_std_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of standard payments in the last 12 months"
+                    placeholder="num_std_12mts"
                     />
             </div>
 
@@ -719,10 +754,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_sub}
                     onChange={(e) => handleChange("num_sub", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of sub-standard payments"
+                    placeholder="num_sub"
                     />
                 </div>
 
@@ -732,10 +768,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_sub_6mts}
                     onChange={(e) => handleChange("num_sub_6mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of sub-standard payments in the last 6 months"
+                    placeholder="num_sub_6mts"
                     />
                 </div>
 
@@ -745,10 +782,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_sub_12mts}
                     onChange={(e) => handleChange("num_sub_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of sub-standard payments in the last 12 months"
+                    placeholder="num_sub_12mts"
                     />
                 </div>
 
@@ -758,10 +796,11 @@ return (
                   </label>
                   <input
                     type="number"
+                    step="1"
                     value={formData.max_dpd_6_12mts}
                     onChange={(e) => handleChange("max_dpd_6_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Maximum days past due in the last 6-12 months"
+                    placeholder="max_dpd_6_12mts"
                   />
             </div>
 
@@ -771,10 +810,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                     value={formData.max_dpd_12mts}
                     onChange={(e) => handleChange("max_dpd_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Maximum days past due in the last 12 months"
+                    placeholder="max_dpd_12mts"
                   />
                 </div>
               </div>
@@ -798,10 +838,11 @@ return (
                   </label>
                   <input
                     type="number"
-                        value={formData.num_enq_6mts}
+                    step="1"
+                    value={formData.num_enq_6mts}
                     onChange={(e) => handleChange("num_enq_6mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of inquiries in the last 6 months"
+                    placeholder="num_enq_6mts"
                     />
                 </div>
 
@@ -811,10 +852,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.num_enq_12mts}
                     onChange={(e) => handleChange("num_enq_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Number of inquiries in the last 12 months"
+                    placeholder="num_enq_12mts"
                     />
             </div>
 
@@ -824,10 +866,13 @@ return (
                   </label>
                     <input
                         type="number"
-                    value={formData.pct_PL_enq_L6m_of_ever}
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        value={formData.pct_PL_enq_L6m_of_ever}
                     onChange={(e) => handleChange("pct_PL_enq_L6m_of_ever", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Percent of personal loan inquiries in the last 6 months"
+                    placeholder="pct_PL_enq_L6m_of_ever"
                     />
                 </div>
 
@@ -837,10 +882,13 @@ return (
                   </label>
                     <input
                         type="number"
-                    value={formData.pct_CC_enq_L6m_of_ever}
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        value={formData.pct_CC_enq_L6m_of_ever}
                     onChange={(e) => handleChange("pct_CC_enq_L6m_of_ever", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Percent of credit card inquiries in the last 6 months"
+                    placeholder="pct_CC_enq_L6m_of_ever"
                   />
                 </div>
                 </div>
@@ -864,10 +912,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.tot_open_tl}
                     onChange={(e) => handleChange("tot_open_tl", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Total open trade lines"
+                    placeholder="tot_open_tl"
                     />
                 </div>
 
@@ -877,10 +926,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.tot_closed_tl}
                     onChange={(e) => handleChange("tot_closed_tl", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Total closed trade lines"
+                    placeholder="tot_closed_tl"
                     />
                 </div>
 
@@ -890,10 +940,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.tot_active_tl}
                     onChange={(e) => handleChange("tot_active_tl", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Total active trade lines"
+                    placeholder="tot_active_tl"
                     />
                 </div>
 
@@ -903,10 +954,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.Total_TL_opened_L6M}
                     onChange={(e) => handleChange("Total_TL_opened_L6M", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Total accounts opened in the last 6 months"
+                    placeholder="Total_TL_opened_L6M"
                     />
                 </div>
 
@@ -916,10 +968,11 @@ return (
                   </label>
                     <input
                         type="number"
+                        step="1"
                         value={formData.tot_tl_closed_L6M}
                     onChange={(e) => handleChange("tot_tl_closed_L6M", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Total accounts closed in the last 6 months"
+                    placeholder="tot_tl_closed_L6M"
                     />
                 </div>
                 </div>
@@ -1111,7 +1164,7 @@ return (
                         value={formData.customer_since}
                     onChange={(e) => handleChange("customer_since", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="Customer relationship duration"
+                    placeholder="customer_since"
                     />
                 </div>
                 </div>
@@ -1152,17 +1205,17 @@ return (
             <div style={{ width: "100%" }}>
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || filledFieldsCount < 35}
                 style={{
                   width: "100%",
                   padding: "1rem",
-                  background: isLoading ? "#ccc" : "linear-gradient(135deg, #3b82f6, #10b981)",
+                  background: isLoading || filledFieldsCount < 35 ? "#ccc" : "linear-gradient(135deg, #3b82f6, #10b981)",
                   color: "white",
                   border: "none",
                   borderRadius: "0.5rem",
                   fontSize: "1rem",
                   fontWeight: "500",
-                  cursor: isLoading ? "not-allowed" : "pointer",
+                  cursor: isLoading || filledFieldsCount < 35 ? "not-allowed" : "pointer",
                   transition: "all 0.2s ease",
                   boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                   display: "flex",
@@ -1187,8 +1240,8 @@ return (
                   "Calculate Risk"
                 )}
               </button>
-                </div>
             </div>
+          </div>
         </form>
     </div>
     </div>
