@@ -39,16 +39,9 @@ const BankDashboard = () => {
   };
 
   const handleDownload = () => {
-    // Use a direct window.open approach, which is more reliable for downloads
-    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
-    const downloadUrl = `${backendUrl}/api/download/bank-software`;
-    
-    // Log the download attempt
-    console.log(`Initiating software download for bank: ${bankName} with ID: ${bankId}`);
-    console.log(`Download URL: ${downloadUrl}`);
-    
-    // Open the download in a new tab/window
-    window.open(downloadUrl, '_blank');
+    // Open Google Drive link in a new tab
+    const googleDriveLink = "https://drive.google.com/file/d/148D3jh_k_fa_ytrvmi1-DMK9nQrEuWkQ/view?usp=share_link"; // Replace with your actual Google Drive link
+    window.open(googleDriveLink, '_blank', 'noopener,noreferrer');
   };
 
   return (
