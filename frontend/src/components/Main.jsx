@@ -1,7 +1,21 @@
 import React from "react";
 import img from "@assets/img1.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+  const navigate = useNavigate();
+
+  const handleSignupClick = () => {
+    navigate("/signup");
+  };
+
+  const handleContactClick = () => {
+    const footerSection = document.getElementById('support-section');
+    if (footerSection) {
+      footerSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="part1">
       <div className="content">
@@ -17,8 +31,8 @@ const Main = () => {
         </div>
 
         <div className="button">
-          <button className="right"> Start with RiskEval</button>
-          <button className="left"> Talk to our team</button>
+          <button className="right" onClick={handleSignupClick}> Start with RiskEval</button>
+          <button className="left" onClick={handleContactClick}> Talk to our team</button>
         </div>
       </div>
 
