@@ -1,4 +1,4 @@
-#!/Users/prakharsaxena/Desktop/Risk-Eval/backend/venv_py311/bin/python3.11
+#!/Users/prakharsaxena/Documents/RiskEval/backend/venv_py311/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
