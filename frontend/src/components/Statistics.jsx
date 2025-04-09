@@ -1,6 +1,7 @@
 import React from 'react'
 import statics from "../assets/statics.jpeg";
 
+
 const Statistics = () => {
   return (
     <div className='statics_main'>

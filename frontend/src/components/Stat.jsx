@@ -10,8 +10,8 @@ const Stat = () => {
 
             <img className='stat_img' src={stat}  />
         </div>
-        <div className='stat_head '> <h1 > Network powered fraud signal</h1></div>
-        <div className='stat_para'> <p> Stop identified fraud ,account take over  and risky payment with ML-powered  fraud signal</p></div>
+        <div className='stat_head '> <h1 > ML- powered Risk assesment</h1></div>
+        <div className='stat_para'> <p> Identifiy ethical customer ,using ML-powered  XGBoost </p></div>
 
     </div>
   )

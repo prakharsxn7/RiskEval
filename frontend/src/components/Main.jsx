@@ -20,12 +20,12 @@ const Main = () => {
     <div className="part1">
       <div className="content">
         <div className="heading">
-          <h3> Make data-driven accurate Credit risk prediction </h3>
+          <h3> Make data-driven accurate Credit Risk prediction </h3>
         </div>
         <div className="paragraph">
           <p>
             {" "}
-            Gain real time insight into credit risk , streamlining loan approval 
+            Gain real time insight into credit Risk , streamlining loan approval 
             and enhance financial decision making with Ai-powered analytics
           </p>
         </div>
