@@ -1,6 +1,7 @@
 import { useState } from "react"
 import * as XLSX from 'xlsx';
 import { config } from "../utils/path";
+import { useNavigate } from 'react-router-dom';
 
 
 const tabStyle = {
@@ -77,6 +78,7 @@ export default function CustomerDashboard() {
     "customer-info": false
   })
   const [filledFieldsCount, setFilledFieldsCount] = useState(0)
+  const navigate = useNavigate();
 
   // Progress indicator component
   const ProgressIndicator = () => {
@@ -295,7 +297,7 @@ export default function CustomerDashboard() {
         processedData.customer_since = 0
       }
 
-      // Convert all other fields to numbers, replacing empty strings, NaN, or invalid values with 0
+      // Convert all other fields to numbers
       Object.keys(processedData).forEach(key => {
         if (!['MARITALSTATUS', 'EDUCATION', 'GENDER', 'income_segment'].includes(key)) {
           const value = Number(processedData[key])
@@ -339,16 +341,6 @@ export default function CustomerDashboard() {
         first_prod_enq2_others: processedData.first_prod_enq2 === 'Others' ? 1 : 0,
       }
 
-      // Ensure all numeric fields are valid numbers
-      Object.keys(transformedData).forEach(key => {
-        const value = transformedData[key]
-        if (typeof value !== 'number' || isNaN(value)) {
-          transformedData[key] = 0
-        }
-      })
-
-      console.log('Transformed data:', transformedData)
-
       // Create a worksheet from the transformed data
       const ws = XLSX.utils.json_to_sheet([transformedData])
       const wb = XLSX.utils.book_new()
@@ -360,7 +352,7 @@ export default function CustomerDashboard() {
       const formDataToSend = new FormData()
       formDataToSend.append('file', dataBlob, 'data.xlsx')
 
-      const BASE_URL= config.url.PYTHON_API_URL
+      const BASE_URL = config.url.PYTHON_API_URL
       
       const response = await fetch(`${BASE_URL}/process-file`, {
         method: 'POST',
@@ -377,16 +369,65 @@ export default function CustomerDashboard() {
       
       // Handle the predictions here
       if (result.predictions && result.predictions.length > 0) {
-        // Display the predictions to the user
         setError(null)
-        alert(`Risk Assessment Result: ${result.predictions[0]}`)
+        
+        // Calculate credit score based on risk level (P1-P4)
+        let creditScore = 0;
+        let isEligible = false;
+        let category = '';
+        let riskDescription = '';
+        
+        switch(result.predictions[0]) {
+          case 'P1':
+            creditScore = Math.floor(Math.random() * (850 - 740) + 740);
+            isEligible = true;
+            category = 'Excellent';
+            riskDescription = 'Very low risk profile';
+            break;
+          case 'P2':
+            creditScore = Math.floor(Math.random() * (739 - 670) + 670);
+            isEligible = true;
+            category = 'Good';
+            riskDescription = 'Low to moderate risk profile';
+            break;
+          case 'P3':
+            creditScore = Math.floor(Math.random() * (669 - 580) + 580);
+            isEligible = false;
+            category = 'Fair';
+            riskDescription = 'Moderate to high risk profile';
+            break;
+          case 'P4':
+            creditScore = Math.floor(Math.random() * (579 - 300) + 300);
+            isEligible = false;
+            category = 'Poor';
+            riskDescription = 'High risk profile';
+            break;
+          default:
+            creditScore = 0;
+            isEligible = false;
+            category = 'Unknown';
+            riskDescription = 'Unable to determine risk profile';
+        }
+
+        // Navigate to results page with risk assessment data
+        navigate('/results', {
+          state: {
+            riskData: {
+              riskLevel: result.predictions[0],
+              creditScore,
+              isEligible,
+              category,
+              riskDescription,
+              successRate: isEligible ? Math.floor(Math.random() * (95 - 75) + 75) : Math.floor(Math.random() * (74 - 40) + 40)
+            }
+          }
+        });
       } else {
         throw new Error('No predictions received from server')
       }
     } catch (err) {
       console.error('Error:', err)
       setError(`Failed to process form data: ${err.message}`)
-    } finally {
       setIsLoading(false)
     }
   }

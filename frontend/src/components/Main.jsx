@@ -10,34 +10,46 @@ const Main = () => {
   };
 
   const handleContactClick = () => {
-    const footerSection = document.getElementById('support-section');
+    const footerSection = document.getElementById("support-section");
     if (footerSection) {
-      footerSection.scrollIntoView({ behavior: 'smooth' });
+      footerSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
-    <div className="part1">
-      <div className="content">
-        <div className="heading">
-          <h3> Make data-driven accurate Credit Risk prediction </h3>
-        </div>
-        <div className="paragraph">
-          <p>
-            {" "}
-            Gain real time insight into credit Risk , streamlining loan approval 
-            and enhance financial decision making with Ai-powered analytics
-          </p>
+    <div class="hero-section">
+      <div className="part1">
+        <div className="content">
+          <div className="heading">
+            <h3>
+              {" "}
+              Make Data-Driven, Accurate Credit Risk Decisions{" "}
+            </h3>
+          </div>
+          <div className="paragraph">
+            <p>
+              {" "}
+              Gain real-time insights into credit risk, streamline loan
+              approvals, and enhance financial decision-making with AI-powered
+              analytics
+            </p>
+          </div>
+
+          <div className="button">
+            <button className="right" onClick={handleSignupClick}>
+              {" "}
+              Start with RiskEval
+            </button>
+            <button className="left" onClick={handleContactClick}>
+              {" "}
+              Talk to our team
+            </button>
+          </div>
         </div>
 
-        <div className="button">
-          <button className="right" onClick={handleSignupClick}> Start with RiskEval</button>
-          <button className="left" onClick={handleContactClick}> Talk to our team</button>
+        <div className="img_cont">
+          <img className=" only_img " src={img} alt="man images" />
         </div>
-      </div>
-
-      <div className="img_cont">
-        <img className=" only_img " src={img} alt="man images" />
       </div>
     </div>
   );

@@ -10,8 +10,8 @@ const Stat = () => {
 
             <img className='stat_img' src={stat}  />
         </div>
-        <div className='stat_head '> <h1 > ML- powered Risk assesment</h1></div>
-        <div className='stat_para'> <p> Identifiy ethical customer ,using ML-powered  XGBoost </p></div>
+        <div className='stat_head '> <h1 > ML - Powered Risk Assessment</h1></div>
+        <div className='stat_para'> <p> Identify creditworthy applicants using XGBoost—our efficient, data-backed ML model for accurate credit risk prediction. </p></div>
 
     </div>
   )

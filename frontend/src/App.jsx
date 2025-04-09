@@ -14,6 +14,7 @@ import Stat from "./components/Stat";
 import Statistics from "./components/Statistics";
 import Footer from "./components/Footer";
 import Loading from "./components/Loading";
+import Results from "./components/Results";
 
 const Home = () => {
   return (
@@ -73,6 +74,16 @@ function App() {
             element={
               isLoggedIn ? (
                 <Dashboard />
+              ) : (
+                <Navigate to="/login" replace />
+              )
+            } 
+          />
+          <Route 
+            path="/results" 
+            element={
+              isLoggedIn ? (
+                <Results />
               ) : (
                 <Navigate to="/login" replace />
               )

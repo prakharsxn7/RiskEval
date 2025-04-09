@@ -33,7 +33,7 @@ const Footer = () => {
             </Link>
           </div>
           <h3>About Us</h3>
-          <p>We are dedicated to providing the best risk evaluation services to help businesses make informed decisions.</p>
+          <p>We deliver efficient, ML - powered credit risk evaluation services to help financial institutions make informed lending decisions with confidence.</p>
           <div className="social-links">
             <a href="#" aria-label="Facebook"><i className="fab fa-facebook"></i></a>
             <a href="#" aria-label="Twitter"><i className="fab fa-twitter"></i></a>
