@@ -3,6 +3,22 @@ import { Link } from 'react-router-dom';
 import logo from "@assets/logo.png";
 
 const Footer = () => {
+  const handleExploreClick = (e) => {
+    e.preventDefault();
+    const exploreSection = document.getElementById('explore-section');
+    if (exploreSection) {
+      exploreSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    const homeSection = document.getElementById('home-section');
+    if (homeSection) {
+      homeSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -28,8 +44,8 @@ const Footer = () => {
         <div className="footer-section">
           <h3>Quick Links</h3>
           <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/explore">Explore</Link></li>
+            <li><a href="#" onClick={handleHomeClick}>Home</a></li>
+            <li><a href="#" onClick={handleExploreClick}>Explore</a></li>
             <li><Link to="/support">Support</Link></li>
             <li><Link to="/dashboard">Dashboard</Link></li>
           </ul>
@@ -39,8 +55,8 @@ const Footer = () => {
           <h3>Contact</h3>
           <ul>
             <li>Email: support@riskeval.com</li>
-            <li>Phone: (555) 123-4567</li>
-            <li>Address: 123 Business Ave, Suite 100</li>
+            <li>Phone: (+91) 9936818234</li>
+            <li>Address: Faizabad Road, Lucknow</li>
           </ul>
         </div>
 

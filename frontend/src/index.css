@@ -2702,4 +2702,37 @@ ul{
   }
 }
 
+
+
+/* new addtion of css÷ */
+
+@media screen and (max-width: 768px) {
+    
+  .statics_head{
+     display: none;
+ 
+ }
+ .statics_para{
+     display: none;
+ }
+}
+
+@media screen and  (max-width:768px){
+  .stat_para{
+    display: none;
+  }
+    
+  .stat_head{
+    display: flex;
+  }
   
+}
+@media screen and  (max-width:768px){
+     .siHea{
+      display: none;
+     }
+     .siPara{
+      display: none;
+     }
+
+  }
