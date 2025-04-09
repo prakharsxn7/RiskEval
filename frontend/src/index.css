@@ -217,6 +217,71 @@ main {
   .nav-ul {
     gap: 0;
   }
+
+  .footer-top {
+    width: 100%; /* Make footer-top take full width */
+    /* Remove align-items from here if it exists */
+  }
+
+  .footer-logo-container {
+    justify-content: center !important; /* Force center alignment for the logo container */
+    /* Remove width: auto; if it exists */
+    margin-left: auto; /* Add auto margins for block centering */
+    margin-right: auto; /* Add auto margins for block centering */
+    width: fit-content; /* Size container to logo */
+  }
+  
+  /* Revert previous flex changes on footer-content if they caused issues */
+  .footer-content {
+    display: grid; /* Revert back to grid or original display */
+    grid-template-columns: 1fr;
+    /* Remove align-items: center; */
+  }
+
+  /* Ensure text-align remains center for sections if needed */
+  .footer-section {
+     text-align: center;
+     /* width: 100%; */ /* Remove width override if not needed */
+  }
+
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center grid items horizontally */
+    width: 100%;
+  }
+
+  .footer-top {
+    width: 100%; /* Ensure it can span the width */
+    display: flex; /* Make footer-top itself a flex container */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items inside footer-top */
+    margin-bottom: 2rem; /* Add spacing below footer-top */
+  }
+
+  .footer-logo-container {
+    display: flex; /* Ensure it's flex */
+    justify-content: center; /* Center the logo link inside */
+    width: 100%; /* Allow it full width within footer-top */
+    margin-left: 0; /* Reset auto margins */
+    margin-right: 0;
+  }
+
+  .footer-grid {
+     width: 100%;
+     max-width: 400px; /* Optional: constrain width of links grid */
+     /* grid-template-columns: 1fr; */ /* Already set */
+  }
+
+  .footer-section {
+    text-align: center;
+    width: 100%;
+  }
+
+  .footer-copyright {
+     width: 100%;
+     text-align: center;
+  }
 }
 
 /* Login button style */
@@ -733,6 +798,38 @@ main {
   .newsletter-form {
     max-width: 300px;
     margin: 1rem auto;
+  }
+
+  .footer-logo-container {
+    justify-content: center;
+  }
+
+  .footer-top {
+    width: 100%; /* Allow full width on mobile */
+    align-items: center; /* Center items within footer-top */
+  }
+
+  .footer-logo-container {
+    justify-content: center;
+    width: auto; /* Let the container size naturally */
+    margin-bottom: 1rem; /* Adjust spacing if needed */
+  }
+
+  .footer-grid {
+    width: 100%; /* Ensure grid takes full width too */
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    display: flex; /* Use flex for centering */
+    flex-direction: column;
+    align-items: center; /* Center all footer content */
+  }
+
+  .footer-section {
+    text-align: center;
+    width: 100%; /* Ensure sections take full width */
+    max-width: 400px; /* Optional: Limit width for readability */
   }
 }
 
@@ -2845,5 +2942,90 @@ ul {
   .stat_para,
   .statics_para {
     font-size: 1rem;
+  }
+}
+
+.content {
+  width: 100%;
+  margin-top: calc(var(--nav-height) + 1rem);
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    margin-top: calc(var(--nav-height) + 3rem);
+    padding: 0 1rem;
+  }
+
+  .heading {
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content {
+    margin-top: calc(var(--nav-height) + 4rem);
+  }
+
+  .heading {
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Laptop and larger screen layout */
+@media screen and (min-width: 1200px) {
+  .part1 {
+    display: flex;
+    justify-content: space-between; /* Space out content and image */
+    align-items: center;
+    padding: 6rem 5%; /* Restore original padding */
+    text-align: left; /* Default text align for children */
+    max-width: 2000px; /* Adjust as needed, or remove */
+    margin-inline: auto;
+  }
+
+  .content {
+    width: 48%; /* Give content slightly less than half */
+    max-width: 650px; /* Max width for text readability */
+    align-self: center; /* Vertically center content */
+    padding: 0; /* Reset padding */
+    margin: 0; /* Reset margin */
+    align-items: flex-start; /* Align items inside content to left */
+  }
+
+  .heading,
+  .paragraph {
+    text-align: left; /* Ensure text is left-aligned */
+    margin-left: 0; /* Reset potential auto margins */
+    margin-right: 0; /* Reset potential auto margins */
+  }
+
+  .paragraph {
+     background: linear-gradient(to right, #ffffff 0%, #9ef7e9 50%, #7ff5d4 100%); /* Restore gradient */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    margin-bottom: 2rem; /* Add space below paragraph */
+  }
+
+  .button {
+    justify-content: flex-start; /* Align buttons to the left */
+    margin-top: 1.5rem;
+  }
+
+  .img_cont {
+    position: relative; /* Make positioning relative to the flow */
+    width: 50%; /* Give image half the space */
+    max-width: 800px; /* Control max image size */
+    bottom: auto; /* Reset position overrides */
+    right: auto;  /* Reset position overrides */
+    margin: 0; /* Reset margins */
+  }
+
+  .only_img {
+     width: 100%; /* Make image fill its container */
+     height: auto;
+     mix-blend-mode: difference; /* Keep blend mode if desired */
   }
 }
