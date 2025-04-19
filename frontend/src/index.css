@@ -2702,4 +2702,152 @@ ul{
   }
 }
 
+<<<<<<< Updated upstream
   
+=======
+/* new addtion of css÷ */
+
+@media screen and (max-width: 768px) {
+  .siHea {
+    /* display: none; */
+  }
+  .siPara {
+    /* display: none; */
+  }
+  .stat_para {
+    /* display: none; */
+  }
+
+  .stat_head {
+    display: flex;
+  }
+  .statics_head {
+    display: block;
+  }
+  .statics_para {
+    display: block;
+  }
+}
+
+/* Responsive Typography */
+@media screen and (max-width: 768px) {
+  .heading {
+    font-size: 2.5rem;
+  }
+
+  .siHea,
+  .stat_head,
+  .statics_head {
+    font-size: 1.25rem;
+  }
+
+  .siPara,
+  .stat_para,
+  .statics_para {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .heading {
+    font-size: 2rem;
+  }
+
+  .siHea,
+  .stat_head,
+  .statics_head {
+    font-size: 1.1rem;
+  }
+
+  .siPara,
+  .stat_para,
+  .statics_para {
+    font-size: 1rem;
+  }
+}
+
+.content {
+  width: 100%;
+  margin-top: calc(var(--nav-height) + 1rem);
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    margin-top: calc(var(--nav-height) + 3rem);
+    padding: 0 1rem;
+  }
+
+  .heading {
+    margin-bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .content {
+    margin-top: calc(var(--nav-height) + 4rem);
+  }
+
+  .heading {
+    margin-bottom: 2.5rem;
+  }
+}
+
+/* Laptop and larger screen layout */
+@media screen and (min-width: 1200px) {
+  .part1 {
+    display: flex;
+    justify-content: space-between; /* Space out content and image */
+    align-items: center;
+    padding: 6rem 5%; /* Restore original padding */
+    text-align: left; /* Default text align for children */
+    max-width: 2000px; /* Adjust as needed, or remove */
+    margin-inline: auto;
+  }
+
+  .content {
+    width: 48%; /* Give content slightly less than half */
+    max-width: 650px; /* Max width for text readability */
+    align-self: center; /* Vertically center content */
+    padding: 0; /* Reset padding */
+    margin: 0; /* Reset margin */
+    align-items: flex-start; /* Align items inside content to left */
+  }
+
+  .heading,
+  .paragraph {
+    text-align: left; /* Ensure text is left-aligned */
+    margin-left: 0; /* Reset potential auto margins */
+    margin-right: 0; /* Reset potential auto margins */
+  }
+
+  .paragraph {
+     background: linear-gradient(to right, #ffffff 0%, #9ef7e9 50%, #7ff5d4 100%); /* Restore gradient */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+    margin-bottom: 2rem; /* Add space below paragraph */
+  }
+
+  .button {
+    justify-content: flex-start; /* Align buttons to the left */
+    margin-top: 1.5rem;
+  }
+
+  .img_cont {
+    position: relative; /* Make positioning relative to the flow */
+    width: 50%; /* Give image half the space */
+    max-width: 800px; /* Control max image size */
+    bottom: auto; /* Reset position overrides */
+    right: auto;  /* Reset position overrides */
+    margin: 0; /* Reset margins */
+  }
+
+  .only_img {
+     width: 100%; /* Make image fill its container */
+     height: auto;
+     mix-blend-mode: difference; /* Keep blend mode if desired */
+  }
+}
+>>>>>>> Stashed changes
