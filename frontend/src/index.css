@@ -136,10 +136,10 @@ body {
 }
 
 .nav-btn {
-  padding: 0.7rem 1.2rem;
+  padding: 0.4rem 1rem;
   border-radius: 2rem;
   font-weight: 500;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   cursor: pointer;
   transition: var(--transition);
 }
@@ -168,23 +168,8 @@ body {
   font-size: 0.95rem;
 }
 
-.logout-btn {
-  background: rgba(42, 157, 143, 0.4);
-  color: var(--light-text);
-  border: 1px solid rgba(42, 157, 143, 0.1);
-}
 
-.logout-btn:hover {
-  background: rgba(42, 157, 143, 0.6);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(42, 157, 143, 0.2);
-}
 
-.logout-btn:active {
-  transform: translateY(1px);
-  background: rgba(42, 157, 143, 0.8);
-  box-shadow: none;
-}
 
 /* Adjust main content to account for fixed navbar */
 main {
@@ -285,7 +270,7 @@ main {
 }
 
 /* Login button style */
-.login-btn {
+.login-btn, .dashboard-btn {
   background: rgba(255, 255, 255, 0.1);
   color: var(--primary-color);
   border: 1px solid rgba(128, 128, 128, 0.3);
@@ -298,7 +283,7 @@ main {
 }
 
 /* Contact sales / Primary button style */
-.signup-btn {
+.signup-btn, .logout-btn {
   background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
   color: var(--light-text);
   border: none;
@@ -310,7 +295,7 @@ main {
   box-shadow: 0 4px 12px rgba(42, 157, 143, 0.2);
 }
 
-.signup-btn:active {
+.signup-btn:active, .logout-btn:active {
   transform: translateY(1px);
   background: linear-gradient(135deg, #1e7365 0%, #2f6aa8 100%);
   box-shadow: none;
@@ -522,16 +507,30 @@ main {
   background: #2f6aa8;
 }
 
-.dashboard-btn,
-.logout-btn {
-  background: rgba(42, 157, 143, 0.4);
-  color: white;
-  border: 1px solid rgba(42, 157, 143, 0.1);
+.dashboard-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary-color);
+  border: 1px solid rgba(128, 128, 128, 0.3);
 }
 
-.dashboard-btn:hover,
+.dashboard-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #357abd;
+  border-color: rgba(128, 128, 128, 0.5);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  color: var(--light-text);
+  border: none;
+  padding: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+
 .logout-btn:hover {
-  background: rgba(42, 157, 143, 0.6);
+  background: linear-gradient(135deg, #238677 0%, #357abd 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(42, 157, 143, 0.2);
 }
 
 /* Form submit button active state */

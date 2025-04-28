@@ -33,7 +33,72 @@ const commonInputStyles = {
   backgroundColor: "white",
   outline: "none",
   transition: "all 0.2s ease",
+  height: "45px",
 }
+
+// Additional styles specifically for select elements
+const selectStyles = {
+  ...commonInputStyles,
+  appearance: "none",
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E")`,
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "right 1rem center",
+  paddingRight: "2.5rem",
+  cursor: "pointer",
+}
+
+// Add styles for inputs and selects including interactive states
+const styleTag = document.createElement('style');
+styleTag.textContent = `
+  input[type="number"], select {
+    transition: all 0.2s ease;
+  }
+
+  input[type="number"]:hover, select:hover {
+    border-color: #9ca3af;
+    background-color: #f9fafb;
+  }
+
+  input[type="number"]:focus, select:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background-color: white;
+    outline: none;
+  }
+
+  select:active {
+    background-color: #f3f4f6;
+  }
+
+  select {
+    text-indent: 0;
+    padding-left: 0.75rem;
+  }
+
+  select option {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    color: #374151;
+    background-color: white;
+    min-height: 1.5em;
+    text-indent: 0;
+  }
+
+  select option:hover {
+    background-color: #f3f4f6;
+  }
+
+  /* Custom dropdown arrow color change on hover/focus */
+  select:hover, select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%233b82f6' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  }
+
+  /* Fix dropdown alignment */
+  select, select option {
+    text-align-last: left;
+  }
+`;
+document.head.appendChild(styleTag);
 
 const commonLabelStyles = {
   display: "block",
@@ -73,7 +138,6 @@ export default function CustomerDashboard() {
     "account-types": false,
     "delinquency": false,
     "inquiries": false,
-    "trade-lines": false,
     "loan-flags": false,
     "customer-info": false
   })
@@ -87,7 +151,6 @@ export default function CustomerDashboard() {
       "Account Types",
       "Delinquency",
       "Inquiries",
-      "Trade Lines",
       "Loan Flags",
       "Customer Info"
     ]
@@ -196,37 +259,31 @@ export default function CustomerDashboard() {
     num_sub: "",
     num_sub_6mts: "",
     num_sub_12mts: "",
+    num_dbt: "",
+    num_dbt_12mts: "",
+    num_lss: "",
+    recent_level_of_deliq: "",
     
     // Inquiries
-    num_enq_6mts: "",
-    num_enq_12mts: "",
+    CC_enq_L12m: "",
+    PL_enq_L12m: "",
+    time_since_recent_enq: "",
+    enq_L3m: "",
 
-    // Days Past Due
-    max_dpd_6_12mts: "",
-    max_dpd_12mts: "",
-    
-    // Trade Lines
-    tot_open_tl: "",
-    tot_closed_tl: "",
-    tot_active_tl: "",
-    Total_TL_opened_L6M: "",
-    tot_tl_closed_L6M: "",
-
-    // Loan Flags
+    // Customer Info
+    NETMONTHLYINCOME: "",
+    Time_With_Curr_Empr: "",
+    CC_Flag: "",
     PL_Flag: "",
     pct_PL_enq_L6m_of_ever: "",
     pct_CC_enq_L6m_of_ever: "",
     HL_Flag: "",
     GL_Flag: "",
-
-    // Customer Info
     MARITALSTATUS: "",
     EDUCATION: "",
     GENDER: "",
     last_prod_enq2: "",
     first_prod_enq2: "",
-    income_segment: "",
-    customer_since: "",
   })
 
   const handleChange = (field, value) => {
@@ -249,10 +306,9 @@ export default function CustomerDashboard() {
       'account-activity': ['pct_tl_open_L6M', 'pct_tl_closed_L6M', 'Tot_TL_closed_L12M', 'pct_tl_closed_L12M', 'Tot_Missed_Pmnt'],
       'account-types': ['CC_TL', 'Home_TL', 'PL_TL', 'Secured_TL', 'Unsecured_TL', 'Other_TL'],
       'delinquency': ['max_recent_level_of_deliq', 'num_deliq_6_12mts', 'num_times_60p_dpd', 'num_std_12mts', 'num_sub'],
-      'inquiries': ['num_enq_6mts', 'num_enq_12mts'],
-      'trade-lines': ['tot_open_tl', 'tot_closed_tl', 'tot_active_tl', 'Total_TL_opened_L6M', 'tot_tl_closed_L6M'],
+      'inquiries': ['CC_enq_L12m', 'PL_enq_L12m', 'time_since_recent_enq', 'enq_L3m'],
       'loan-flags': ['PL_Flag', 'HL_Flag', 'GL_Flag'],
-      'customer-info': ['MARITALSTATUS', 'EDUCATION', 'GENDER', 'income_segment', 'customer_since']
+      'customer-info': ['NETMONTHLYINCOME', 'Time_With_Curr_Empr', 'CC_Flag', 'PL_Flag', 'MARITALSTATUS', 'EDUCATION', 'GENDER', 'last_prod_enq2', 'first_prod_enq2']
     }
 
     const currentSectionFields = sectionFields[activeTab]
@@ -280,7 +336,6 @@ export default function CustomerDashboard() {
         MARITALSTATUS: { 'Single': 1, 'Married': 2, 'Divorced': 3, 'Widowed': 4 },
         EDUCATION: { 'High School': 1, 'Bachelor': 2, 'Master': 3, 'PhD': 4, 'Other': 5 },
         GENDER: { 'Male': 1, 'Female': 2, 'Other': 3 },
-        income_segment: { 'Low': 1, 'Medium': 2, 'High': 3, 'Very High': 4 }
       }
 
       // Convert categorical fields to numeric
@@ -288,18 +343,9 @@ export default function CustomerDashboard() {
         processedData[field] = categoricalMappings[field][processedData[field]] || 0
       })
 
-      // Convert customer_since to numeric (days since date)
-      if (processedData.customer_since) {
-        const customerDate = new Date(processedData.customer_since)
-        const today = new Date()
-        processedData.customer_since = Math.floor((today - customerDate) / (1000 * 60 * 60 * 24))
-      } else {
-        processedData.customer_since = 0
-      }
-
       // Convert all other fields to numbers
       Object.keys(processedData).forEach(key => {
-        if (!['MARITALSTATUS', 'EDUCATION', 'GENDER', 'income_segment'].includes(key)) {
+        if (!['MARITALSTATUS', 'EDUCATION', 'GENDER'].includes(key)) {
           const value = Number(processedData[key])
           processedData[key] = isNaN(value) ? 0 : value
         }
@@ -314,8 +360,8 @@ export default function CustomerDashboard() {
         num_lss: 0,
         num_lss_12mts: 0,
         recent_level_of_deliq: processedData.max_recent_level_of_deliq || 0,
-        CC_enq_L12m: processedData.num_enq_12mts || 0,
-        PL_enq_L12m: 0,
+        CC_enq_L12m: processedData.CC_enq_L12m || 0,
+        PL_enq_L12m: processedData.PL_enq_L12m || 0,
         time_since_recent_enq: 0,
         enq_L3m: 0,
         NETMONTHLYINCOME: 0,
@@ -433,7 +479,7 @@ export default function CustomerDashboard() {
   }
 
   const handleNext = () => {
-    const sections = ["account-activity", "account-types", "delinquency", "inquiries", "trade-lines", "loan-flags", "customer-info"];
+    const sections = ["account-activity", "account-types", "delinquency", "inquiries", "loan-flags", "customer-info"];
     const currentIndex = sections.indexOf(activeTab);
     if (currentIndex < sections.length - 1) {
       setActiveTab(sections[currentIndex + 1]);
@@ -441,14 +487,14 @@ export default function CustomerDashboard() {
   };
 
   const handlePrevious = () => {
-    const sections = ["account-activity", "account-types", "delinquency", "inquiries", "trade-lines", "loan-flags", "customer-info"];
+    const sections = ["account-activity", "account-types", "delinquency", "inquiries", "loan-flags", "customer-info"];
     const currentIndex = sections.indexOf(activeTab);
     if (currentIndex > 0) {
       setActiveTab(sections[currentIndex - 1]);
     }
-};
+  };
 
-return (
+  return (
     <div style={{ maxWidth: "1024px", margin: "5rem auto 2rem", padding: "0 1rem" }}>
       <div
         style={{
@@ -508,77 +554,71 @@ return (
                 <label style={commonLabelStyles}>
                   Percent accounts opened in last 6 months
                 </label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.01"
-                        value={formData.pct_tl_open_L6M}
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.pct_tl_open_L6M}
                   onChange={(e) => handleChange("pct_tl_open_L6M", e.target.value)}
                   style={commonInputStyles}
                   placeholder="pct_tl_open_L6M"
-                    />
-                </div>
+                />
+              </div>
 
               <div style={{ marginBottom: "1.5rem" }}>
                 <label style={commonLabelStyles}>
                   Percent accounts closed in last 6 months
                 </label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.01"
-                        value={formData.pct_tl_closed_L6M}
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.pct_tl_closed_L6M}
                   onChange={(e) => handleChange("pct_tl_closed_L6M", e.target.value)}
                   style={commonInputStyles}
                   placeholder="pct_tl_closed_L6M"
-                    />
-                </div>
+                />
+              </div>
 
               <div style={{ marginBottom: "1.5rem" }}>
                 <label style={commonLabelStyles}>
                   Total accounts closed in last 12 months
                 </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Tot_TL_closed_L12M}
+                <input
+                  type="number"
+                  step="1"
+                  value={formData.Tot_TL_closed_L12M}
                   onChange={(e) => handleChange("Tot_TL_closed_L12M", e.target.value)}
                   style={commonInputStyles}
                   placeholder="Tot_TL_closed_L12M"
-                    />
-                </div>
+                />
+              </div>
 
               <div style={{ marginBottom: "1.5rem" }}>
                 <label style={commonLabelStyles}>
                   Percent accounts closed in last 12 months
                 </label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.01"
-                        value={formData.pct_tl_closed_L12M}
+                <input
+                  type="number"
+                  step="0.01"
+                  value={formData.pct_tl_closed_L12M}
                   onChange={(e) => handleChange("pct_tl_closed_L12M", e.target.value)}
                   style={commonInputStyles}
                   placeholder="pct_tl_closed_L12M"
-                    />
-                </div>
+                />
+              </div>
 
               <div style={{ marginBottom: "1.5rem" }}>
                 <label style={commonLabelStyles}>
                   Total missed payments
                 </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Tot_Missed_Pmnt}
+                <input
+                  type="number"
+                  step="1"
+                  value={formData.Tot_Missed_Pmnt}
                   onChange={(e) => handleChange("Tot_Missed_Pmnt", e.target.value)}
                   style={commonInputStyles}
                   placeholder="Tot_Missed_Pmnt"
-                    />
-                </div>
+                />
+              </div>
             </div>
 
             {/* Account Types Tab */}
@@ -597,126 +637,126 @@ return (
                   <label style={commonLabelStyles}>
                     Count of credit card accounts
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.CC_TL}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.CC_TL}
                     onChange={(e) => handleChange("CC_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="CC_TL"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Count of housing loan accounts
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Home_TL}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.Home_TL}
                     onChange={(e) => handleChange("Home_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="Home_TL"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Count of personal loan accounts
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.PL_TL}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.PL_TL}
                     onChange={(e) => handleChange("PL_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="PL_TL"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Count of secured accounts
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Secured_TL}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.Secured_TL}
                     onChange={(e) => handleChange("Secured_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="Secured_TL"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Count of unsecured accounts
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Unsecured_TL}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.Unsecured_TL}
                     onChange={(e) => handleChange("Unsecured_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="Unsecured_TL"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Count of other accounts
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Other_TL}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.Other_TL}
                     onChange={(e) => handleChange("Other_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="Other_TL"
-                    />
-            </div>
+                  />
+                </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Age of oldest opened account
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Age_Oldest_TL}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.Age_Oldest_TL}
                     onChange={(e) => handleChange("Age_Oldest_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="Age_Oldest_TL"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Age of newest opened account
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Age_Newest_TL}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.Age_Newest_TL}
                     onChange={(e) => handleChange("Age_Newest_TL", e.target.value)}
                     style={commonInputStyles}
                     placeholder="Age_Newest_TL"
-                    />
-            </div>
+                  />
+                </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Time since recent payment made
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.time_since_recent_payment}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.time_since_recent_payment}
                     onChange={(e) => handleChange("time_since_recent_payment", e.target.value)}
                     style={commonInputStyles}
                     placeholder="time_since_recent_payment"
-                    />
+                  />
                 </div>
               </div>
             </div>
@@ -737,125 +777,153 @@ return (
                   <label style={commonLabelStyles}>
                     Maximum recent level of delinquency
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.max_recent_level_of_deliq}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.max_recent_level_of_deliq}
                     onChange={(e) => handleChange("max_recent_level_of_deliq", e.target.value)}
                     style={commonInputStyles}
                     placeholder="max_recent_level_of_deliq"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Number of times delinquent between last 6-12 months
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_deliq_6_12mts}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_deliq_6_12mts}
                     onChange={(e) => handleChange("num_deliq_6_12mts", e.target.value)}
                     style={commonInputStyles}
                     placeholder="num_deliq_6_12mts"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Number of times 60+ days past due
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_times_60p_dpd}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_times_60p_dpd}
                     onChange={(e) => handleChange("num_times_60p_dpd", e.target.value)}
                     style={commonInputStyles}
                     placeholder="num_times_60p_dpd"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Number of standard payments in the last 12 months
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_std_12mts}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.num_std_12mts}
                     onChange={(e) => handleChange("num_std_12mts", e.target.value)}
                     style={commonInputStyles}
                     placeholder="num_std_12mts"
-                    />
-            </div>
+                  />
+                </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Number of sub-standard payments
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_sub}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_sub}
                     onChange={(e) => handleChange("num_sub", e.target.value)}
                     style={commonInputStyles}
                     placeholder="num_sub"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Number of sub-standard payments in the last 6 months
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_sub_6mts}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_sub_6mts}
                     onChange={(e) => handleChange("num_sub_6mts", e.target.value)}
                     style={commonInputStyles}
                     placeholder="num_sub_6mts"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Number of sub-standard payments in the last 12 months
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_sub_12mts}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_sub_12mts}
                     onChange={(e) => handleChange("num_sub_12mts", e.target.value)}
                     style={commonInputStyles}
                     placeholder="num_sub_12mts"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
-                    Maximum days past due in the last 6-12 months
+                    Number of debt accounts
                   </label>
                   <input
                     type="number"
                     step="1"
-                    value={formData.max_dpd_6_12mts}
-                    onChange={(e) => handleChange("max_dpd_6_12mts", e.target.value)}
+                    value={formData.num_dbt}
+                    onChange={(e) => handleChange("num_dbt", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="max_dpd_6_12mts"
+                    placeholder="num_dbt"
                   />
-            </div>
+                </div>
 
                 <div>
                   <label style={commonLabelStyles}>
-                    Maximum days past due in the last 12 months
+                    Number of debt accounts in last 12 months
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                    value={formData.max_dpd_12mts}
-                    onChange={(e) => handleChange("max_dpd_12mts", e.target.value)}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_dbt_12mts}
+                    onChange={(e) => handleChange("num_dbt_12mts", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="max_dpd_12mts"
+                    placeholder="num_dbt_12mts"
+                  />
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
+                    Number of loss accounts
+                  </label>
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.num_lss}
+                    onChange={(e) => handleChange("num_lss", e.target.value)}
+                    style={commonInputStyles}
+                    placeholder="num_lss"
+                  />
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
+                    Recent level of delinquency
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.recent_level_of_deliq}
+                    onChange={(e) => handleChange("recent_level_of_deliq", e.target.value)}
+                    style={commonInputStyles}
+                    placeholder="recent_level_of_deliq"
                   />
                 </div>
               </div>
@@ -875,156 +943,92 @@ return (
               }}>
                 <div>
                   <label style={commonLabelStyles}>
-                    Number of inquiries in the last 6 months
+                    Number of credit card inquiries in last 12 months
                   </label>
                   <input
                     type="number"
                     step="1"
-                    value={formData.num_enq_6mts}
-                    onChange={(e) => handleChange("num_enq_6mts", e.target.value)}
+                    value={formData.CC_enq_L12m}
+                    onChange={(e) => handleChange("CC_enq_L12m", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="num_enq_6mts"
-                    />
+                    placeholder="CC_enq_L12m"
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
-                    Number of inquiries in the last 12 months
+                    Number of personal loan inquiries in last 12 months
                   </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.num_enq_12mts}
-                    onChange={(e) => handleChange("num_enq_12mts", e.target.value)}
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.PL_enq_L12m}
+                    onChange={(e) => handleChange("PL_enq_L12m", e.target.value)}
                     style={commonInputStyles}
-                    placeholder="num_enq_12mts"
-                    />
-            </div>
+                    placeholder="PL_enq_L12m"
+                  />
+                </div>
 
                 <div>
                   <label style={commonLabelStyles}>
-                    Percent of personal loan inquiries in the last 6 months
+                    Time since recent inquiry
                   </label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.01"
-                        value={formData.pct_PL_enq_L6m_of_ever}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.time_since_recent_enq}
+                    onChange={(e) => handleChange("time_since_recent_enq", e.target.value)}
+                    style={commonInputStyles}
+                    placeholder="time_since_recent_enq"
+                  />
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
+                    Number of inquiries in last 3 months
+                  </label>
+                  <input
+                    type="number"
+                    step="1"
+                    value={formData.enq_L3m}
+                    onChange={(e) => handleChange("enq_L3m", e.target.value)}
+                    style={commonInputStyles}
+                    placeholder="enq_L3m"
+                  />
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
+                    Percent of personal loan inquiries in last 6 months
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.pct_PL_enq_L6m_of_ever}
                     onChange={(e) => handleChange("pct_PL_enq_L6m_of_ever", e.target.value)}
                     style={commonInputStyles}
                     placeholder="pct_PL_enq_L6m_of_ever"
-                    />
+                  />
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
-                    Percent of credit card inquiries in the last 6 months
+                    Percent of credit card inquiries in last 6 months
                   </label>
-                    <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="0.01"
-                        value={formData.pct_CC_enq_L6m_of_ever}
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.pct_CC_enq_L6m_of_ever}
                     onChange={(e) => handleChange("pct_CC_enq_L6m_of_ever", e.target.value)}
                     style={commonInputStyles}
                     placeholder="pct_CC_enq_L6m_of_ever"
                   />
                 </div>
-                </div>
-            </div>
-
-            {/* Trade Lines Tab */}
-            <div
-              style={{
-                display: activeTab === "trade-lines" ? "block" : "none",
-              }}
-            >
-              <h3 style={sectionHeadingStyle}>Trade Lines Information</h3>
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(2, 1fr)",
-                gap: "1.5rem",
-              }}>
-                <div>
-                  <label style={commonLabelStyles}>
-                    Total open trade lines
-                  </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.tot_open_tl}
-                    onChange={(e) => handleChange("tot_open_tl", e.target.value)}
-                    style={commonInputStyles}
-                    placeholder="tot_open_tl"
-                    />
-                </div>
-
-                <div>
-                  <label style={commonLabelStyles}>
-                    Total closed trade lines
-                  </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.tot_closed_tl}
-                    onChange={(e) => handleChange("tot_closed_tl", e.target.value)}
-                    style={commonInputStyles}
-                    placeholder="tot_closed_tl"
-                    />
-                </div>
-
-                <div>
-                  <label style={commonLabelStyles}>
-                    Total active trade lines
-                  </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.tot_active_tl}
-                    onChange={(e) => handleChange("tot_active_tl", e.target.value)}
-                    style={commonInputStyles}
-                    placeholder="tot_active_tl"
-                    />
-                </div>
-
-                <div>
-                  <label style={commonLabelStyles}>
-                    Total accounts opened in the last 6 months
-                  </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.Total_TL_opened_L6M}
-                    onChange={(e) => handleChange("Total_TL_opened_L6M", e.target.value)}
-                    style={commonInputStyles}
-                    placeholder="Total_TL_opened_L6M"
-                    />
-                </div>
-
-                <div>
-                  <label style={commonLabelStyles}>
-                    Total accounts closed in the last 6 months
-                  </label>
-                    <input
-                        type="number"
-                        step="1"
-                        value={formData.tot_tl_closed_L6M}
-                    onChange={(e) => handleChange("tot_tl_closed_L6M", e.target.value)}
-                    style={commonInputStyles}
-                    placeholder="tot_tl_closed_L6M"
-                    />
-                </div>
-                </div>
+              </div>
             </div>
 
             {/* Loan Flags Tab */}
-            <div
-              style={{
-                display: activeTab === "loan-flags" ? "block" : "none",
-              }}
-            >
+            <div style={{ display: activeTab === "loan-flags" ? "block" : "none" }}>
               <h3 style={sectionHeadingStyle}>Loan Flags</h3>
               <div style={{
                 display: "grid",
@@ -1033,57 +1037,68 @@ return (
               }}>
                 <div>
                   <label style={commonLabelStyles}>
+                    Credit Card Flag
+                  </label>
+                  <select
+                    value={formData.CC_Flag}
+                    onChange={(e) => handleChange("CC_Flag", e.target.value)}
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
                     Personal Loan Flag
                   </label>
-                    <select
-                        value={formData.PL_Flag}
+                  <select
+                    value={formData.PL_Flag}
                     onChange={(e) => handleChange("PL_Flag", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Home Loan Flag
                   </label>
-                    <select
-                        value={formData.HL_Flag}
+                  <select
+                    value={formData.HL_Flag}
                     onChange={(e) => handleChange("HL_Flag", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Gold Loan Flag
                   </label>
-                    <select
-                        value={formData.GL_Flag}
+                  <select
+                    value={formData.GL_Flag}
                     onChange={(e) => handleChange("GL_Flag", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="1">Yes</option>
-                        <option value="0">No</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
+                  </select>
                 </div>
-                </div>
+              </div>
             </div>
 
             {/* Customer Info Tab */}
-            <div
-              style={{
-                display: activeTab === "customer-info" ? "block" : "none",
-              }}
-            >
+            <div style={{ display: activeTab === "customer-info" ? "block" : "none" }}>
               <h3 style={sectionHeadingStyle}>Customer Information</h3>
               <div style={{
                 display: "grid",
@@ -1092,123 +1107,119 @@ return (
               }}>
                 <div>
                   <label style={commonLabelStyles}>
+                    Net Monthly Income
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.NETMONTHLYINCOME}
+                    onChange={(e) => handleChange("NETMONTHLYINCOME", e.target.value)}
+                    style={commonInputStyles}
+                    placeholder="NETMONTHLYINCOME"
+                  />
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
+                    Time with Current Employer
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={formData.Time_With_Curr_Empr}
+                    onChange={(e) => handleChange("Time_With_Curr_Empr", e.target.value)}
+                    style={commonInputStyles}
+                    placeholder="Time_With_Curr_Empr"
+                  />
+                </div>
+
+                <div>
+                  <label style={commonLabelStyles}>
                     Marital Status
                   </label>
-                    <select
-                        value={formData.MARITALSTATUS}
+                  <select
+                    value={formData.MARITALSTATUS}
                     onChange={(e) => handleChange("MARITALSTATUS", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="Single">Single</option>
-                        <option value="Married">Married</option>
-                        <option value="Divorced">Divorced</option>
-                        <option value="Widowed">Widowed</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="Married">Married</option>
+                    <option value="Single">Single</option>
+                  </select>
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Education
                   </label>
-                    <select
-                        value={formData.EDUCATION}
+                  <select
+                    value={formData.EDUCATION}
                     onChange={(e) => handleChange("EDUCATION", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="High School">High School</option>
-                        <option value="Bachelor">Bachelor</option>
-                        <option value="Master">Master</option>
-                        <option value="PhD">PhD</option>
-                        <option value="Other">Other</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="12TH">12TH</option>
+                    <option value="GRADUATE">GRADUATE</option>
+                    <option value="OTHERS">OTHERS</option>
+                    <option value="POST-GRADUATE">POST-GRADUATE</option>
+                    <option value="SSC">SSC</option>
+                    <option value="UNDER GRADUATE">UNDER GRADUATE</option>
+                  </select>
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Gender
                   </label>
-                    <select
-                        value={formData.GENDER}
+                  <select
+                    value={formData.GENDER}
                     onChange={(e) => handleChange("GENDER", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="Other">Other</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="F">Female</option>
+                    <option value="M">Male</option>
+                  </select>
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     Last Product Inquiry
                   </label>
-                    <select
-                        value={formData.last_prod_enq2}
+                  <select
+                    value={formData.last_prod_enq2}
                     onChange={(e) => handleChange("last_prod_enq2", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="AL">Auto Loan</option>
-                        <option value="CC">Credit Card</option>
-                        <option value="ConsumerLoan">Consumer Loan</option>
-                        <option value="HL">Home Loan</option>
-                        <option value="PL">Personal Loan</option>
-                        <option value="Others">Others</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="AL">Auto Loan</option>
+                    <option value="CC">Credit Card</option>
+                    <option value="ConsumerLoan">Consumer Loan</option>
+                    <option value="HL">Home Loan</option>
+                    <option value="PL">Personal Loan</option>
+                    <option value="others">Others</option>
+                  </select>
                 </div>
 
                 <div>
                   <label style={commonLabelStyles}>
                     First Product Inquiry
                   </label>
-                    <select
-                        value={formData.first_prod_enq2}
+                  <select
+                    value={formData.first_prod_enq2}
                     onChange={(e) => handleChange("first_prod_enq2", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="AL">Auto Loan</option>
-                        <option value="CC">Credit Card</option>
-                        <option value="ConsumerLoan">Consumer Loan</option>
-                        <option value="HL">Home Loan</option>
-                        <option value="PL">Personal Loan</option>
-                        <option value="Others">Others</option>
-                    </select>
+                    style={selectStyles}
+                  >
+                    <option value="">Select</option>
+                    <option value="AL">Auto Loan</option>
+                    <option value="CC">Credit Card</option>
+                    <option value="ConsumerLoan">Consumer Loan</option>
+                    <option value="HL">Home Loan</option>
+                    <option value="PL">Personal Loan</option>
+                    <option value="others">Others</option>
+                  </select>
                 </div>
-
-                <div>
-                  <label style={commonLabelStyles}>
-                    Income Segment
-                  </label>
-                    <select
-                        value={formData.income_segment}
-                    onChange={(e) => handleChange("income_segment", e.target.value)}
-                    style={commonInputStyles}
-                    >
-                        <option value="">Select</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    <option value="Very High">Very High</option>
-                    </select>
-                </div>
-
-                <div>
-                  <label style={commonLabelStyles}>
-                    Customer Since
-                  </label>
-                    <input
-                    type="date"
-                        value={formData.customer_since}
-                    onChange={(e) => handleChange("customer_since", e.target.value)}
-                    style={commonInputStyles}
-                    placeholder="customer_since"
-                    />
-                </div>
-                </div>
+              </div>
             </div>
 
             {/* Navigation Buttons */}
@@ -1229,7 +1240,7 @@ return (
                 }}
               >
                 Previous
-            </button>
+              </button>
               <button
                 type="button"
                 onClick={handleNext}
@@ -1284,7 +1295,7 @@ return (
             </div>
           </div>
         </form>
-    </div>
+      </div>
     </div>
   )
 }
